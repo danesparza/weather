@@ -13,18 +13,18 @@ import (
 type DarksyService struct{}
 
 // GetWeatherReport gets the weather report
-func (s DarksyService) GetWeatherReport(ctx context.Context, lat, long string) (darksky.Forecast, error) {
+func (s DarksyService) GetWeatherReport(ctx context.Context, lat, long string) (WeatherReport, error) {
 
 	//	Start the service segment
 	ctx, seg := xray.BeginSubsegment(ctx, "darksky-service")
 
 	//	The default return value
-	retval := darksky.Forecast{}
+	retval := WeatherReport{}
 
 	//	Get the api key:
 	apikey := os.Getenv("DARKSKY_API_KEY")
 	if apikey == "" {
-		return retval, fmt.Errorf("{darksky-api-key} key is blank but shouldn't be")
+		return retval, fmt.Errorf("{DARKSKY_API_KEY} key is blank but shouldn't be")
 	}
 
 	//	Create our request:
@@ -33,7 +33,11 @@ func (s DarksyService) GetWeatherReport(ctx context.Context, lat, long string) (
 		return retval, fmt.Errorf("Error getting forecast: %v", err)
 	}
 
-	retval = *response
+	//	Format our weather report
+	retval = WeatherReport{
+		APICalls: response.APICalls,
+		Code:     response.Code,
+	}
 
 	// Close the segment
 	seg.Close(nil)
