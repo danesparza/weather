@@ -22,7 +22,7 @@ func (s DarksyService) GetWeatherReport(ctx context.Context, lat, long string) (
 	retval := darksky.Forecast{}
 
 	//	Get the api key:
-	apikey := os.Getenv("darksky-api-key")
+	apikey := os.Getenv("DARKSKY_API_KEY")
 	if apikey == "" {
 		return retval, fmt.Errorf("{darksky-api-key} key is blank but shouldn't be")
 	}
