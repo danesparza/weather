@@ -25,13 +25,13 @@ type Message struct {
 }
 
 // HandleRequest handles the AWS lambda request
-func HandleRequest(ctx context.Context, msg Message) (darksky.Forecast, error) {
+func HandleRequest(ctx context.Context, msg Message) (data.WeatherReport, error) {
 	xray.Configure(xray.Config{LogLevel: "trace"})
 	ctx, seg := xray.BeginSegment(ctx, "pollen-lambda-handler")
 
 	//	Set the services to call with
 	services := []data.WeatherService{
-		data.DarksyService{},		
+		data.DarksyService{},
 	}
 
 	//	Call the helper method to get the report:

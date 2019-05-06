@@ -28,13 +28,36 @@ func (s DarksyService) GetWeatherReport(ctx context.Context, lat, long string) (
 	}
 
 	//	Create our request:
-	response, err := darksky.Get(apikey, lat, long, "now", darksky.CA, darksky.English)
+	response, err := darksky.Get(apikey, lat, long, "now", darksky.US, darksky.English)
 	if err != nil {
 		return retval, fmt.Errorf("Error getting forecast: %v", err)
 	}
 
 	//	Format our weather report
 	retval = WeatherReport{
+		Latitude:  response.Latitude,
+		Longitude: response.Longitude,
+		Currently: WeatherDataPoint{
+			ApparentTemperature: response.Currently.ApparentTemperature,
+			CloudCover:          response.Currently.CloudCover,
+			Humidity:            response.Currently.Humidity,
+			Icon:                response.Currently.Icon,
+			Ozone:               response.Currently.Ozone,
+			PrecipAccumulation:  response.Currently.PrecipAccumulation,
+			PrecipIntensity:     response.Currently.PrecipIntensity,
+			PrecipIntensityMax:  response.Currently.PrecipIntensityMax,
+			PrecipProbability:   response.Currently.PrecipProbability,
+			PrecipType:          response.Currently.PrecipType,
+			Pressure:            response.Currently.Pressure,
+			Summary:             response.Currently.Summary,
+			Temperature:         response.Currently.Temperature,
+			TemperatureMax:      response.Currently.TemperatureMax,
+			Time:                response.Currently.Time,
+			Visibility:          response.Currently.Visibility,
+			WindBearing:         response.Currently.WindBearing,
+			WindGust:            response.Currently.WindGust,
+			WindSpeed:           response.Currently.WindSpeed,
+		},
 		APICalls: response.APICalls,
 		Code:     response.Code,
 	}

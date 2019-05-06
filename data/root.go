@@ -11,12 +11,11 @@ type WeatherReport struct {
 	Latitude  float64          `json:"latitude,omitempty"`
 	Longitude float64          `json:"longitude,omitempty"`
 	Currently WeatherDataPoint `json:"currently,omitempty"`
-	Minutely  WeatherDataBlock `json:"minutely,omitempty"`
-	Hourly    WeatherDataBlock `json:"hourly,omitempty"`
 	Daily     WeatherDataBlock `json:"daily,omitempty"`
 	Alerts    []WeatherAlert   `json:"alerts,omitempty"`
 	APICalls  int              `json:"apicalls,omitempty"`
 	Code      int              `json:"code,omitempty"`
+	Version   string           `json:"version"`
 }
 
 // WeatherDataBlock defines a group of data points
@@ -31,8 +30,6 @@ type WeatherDataPoint struct {
 	Time                int64   `json:"time,omitempty"`
 	Summary             string  `json:"summary,omitempty"`
 	Icon                string  `json:"icon,omitempty"`
-	SunriseTime         int64   `json:"sunriseTime,omitempty"`
-	SunsetTime          int64   `json:"sunsetTime,omitempty"`
 	PrecipIntensity     float64 `json:"precipIntensity,omitempty"`
 	PrecipIntensityMax  float64 `json:"precipIntensityMax,omitempty"`
 	PrecipProbability   float64 `json:"precipProbability,omitempty"`
