@@ -27,7 +27,7 @@ type Message struct {
 // HandleRequest handles the AWS lambda request
 func HandleRequest(ctx context.Context, msg Message) (data.WeatherReport, error) {
 	xray.Configure(xray.Config{LogLevel: "trace"})
-	ctx, seg := xray.BeginSegment(ctx, "pollen-lambda-handler")
+	ctx, seg := xray.BeginSegment(ctx, "weather-lambda-handler")
 
 	//	Set the services to call with
 	services := []data.WeatherService{
