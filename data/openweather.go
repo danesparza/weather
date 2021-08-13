@@ -4,11 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 
 	"github.com/aws/aws-xray-sdk-go/xray"
+	"golang.org/x/net/context/ctxhttp"
 )
 
 type OpenWeatherRequest struct {
@@ -111,14 +111,15 @@ func (s OpenWeatherService) GetWeatherReport(ctx context.Context, lat, long stri
 	//	Get the api key:
 	apikey := os.Getenv("OPENWEATHER_API_KEY")
 	if apikey == "" {
+		seg.AddError(fmt.Errorf("{OPENWEATHER_API_KEY} key is blank but shouldn't be"))
 		return retval, fmt.Errorf("{OPENWEATHER_API_KEY} key is blank but shouldn't be")
 	}
 
 	//	Create our request:
 	clientRequest, err := http.NewRequest("GET", "https://api.openweathermap.org/data/2.5/onecall", nil)
 	if err != nil {
-		log.Print(err)
-		os.Exit(1)
+		seg.AddError(err)
+		return retval, fmt.Errorf("problem creating request to openweather: %v", err)
 	}
 
 	q := clientRequest.URL.Query()
@@ -134,8 +135,9 @@ func (s OpenWeatherService) GetWeatherReport(ctx context.Context, lat, long stri
 
 	//	Execute the request
 	client := &http.Client{}
-	clientResponse, err := client.Do(clientRequest)
+	clientResponse, err := ctxhttp.Do(ctx, xray.Client(client), clientRequest)
 	if err != nil {
+		seg.AddError(err)
 		return retval, fmt.Errorf("error when sending request to OpenWeather API server: %v", err)
 	}
 	defer clientResponse.Body.Close()
@@ -144,6 +146,7 @@ func (s OpenWeatherService) GetWeatherReport(ctx context.Context, lat, long stri
 	owResponse := OpenWeatherResponse{}
 	err = json.NewDecoder(clientResponse.Body).Decode(&owResponse)
 	if err != nil {
+		seg.AddError(err)
 		return retval, fmt.Errorf("problem decoding the response from the OpenWeather API server: %v", err)
 	}
 
