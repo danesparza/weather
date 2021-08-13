@@ -74,7 +74,7 @@ func (s DarksyService) GetWeatherReport(ctx context.Context, lat, long string) (
 			Regions:     item.Regions,
 			Severity:    item.Severity,
 			Description: item.Description,
-			Time:        item.Time,
+			Time:        float64(item.Time),
 			Expires:     item.Expires,
 			URI:         item.URI,
 		}

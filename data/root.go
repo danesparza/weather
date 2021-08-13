@@ -46,6 +46,7 @@ type WeatherDataPoint struct {
 	Pressure            float64 `json:"pressure,omitempty"`
 	Visibility          float64 `json:"visibility,omitempty"`
 	Ozone               float64 `json:"ozone,omitempty"`
+	UVIndex             float64 `json:"uvindex,omitempty"`
 }
 
 // WeatherAlert defines an alert for a weather event
@@ -54,7 +55,7 @@ type WeatherAlert struct {
 	Regions     []string `json:"regions,omitempty"`
 	Severity    string   `json:"severity,omitempty"`
 	Description string   `json:"description,omitempty"`
-	Time        int64    `json:"time,omitempty"`
+	Time        float64  `json:"time,omitempty"`
 	Expires     float64  `json:"expires,omitempty"`
 	URI         string   `json:"uri,omitempty"`
 }
