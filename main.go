@@ -31,7 +31,7 @@ func HandleRequest(ctx context.Context, msg Message) (data.WeatherReport, error)
 
 	//	Set the services to call with
 	services := []data.WeatherService{
-		data.DarksyService{},
+		data.OpenWeatherService{},
 	}
 
 	//	Call the helper method to get the report:
