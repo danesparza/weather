@@ -12,6 +12,10 @@ jobs:
     steps:
       - checkout
 
+      - run:
+          name: Install Dependencies
+          command: go mod download
+
       - run: 
          name: Create the artifacts directory
          command: mkdir -p /tmp/artifacts
@@ -19,15 +23,7 @@ jobs:
       - run: 
          name: Install the Github release creator tool
          command: go get github.com/tcnksm/ghr
-      
-      - run:
-         name: Install 'dep' tool
-         command: go get -u github.com/golang/dep/cmd/dep
-      
-      - run:
-         name: Get dependencies
-         command: dep ensure
-
+   
       - run:
          name: Run tests
          command: go test -v -race github.com/danesparza/weather/data
