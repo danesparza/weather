@@ -220,6 +220,8 @@ func (s OpenWeatherService) GetWeatherReport(ctx context.Context, lat, long stri
 		Alerts: alerts,
 	}
 
+	xray.AddMetadata(ctx, "OpenWeatherResult", retval)
+
 	// Close the segment
 	seg.Close(nil)
 
