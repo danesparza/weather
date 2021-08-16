@@ -33,9 +33,9 @@ type WeatherDataPoint struct {
 	Icon                string  `json:"icon,omitempty"`
 	PrecipIntensity     float64 `json:"precipIntensity,omitempty"`
 	PrecipIntensityMax  float64 `json:"precipIntensityMax,omitempty"`
-	PrecipProbability   float64 `json:"precipProbability,omitempty"`
+	PrecipProbability   float64 `json:"precipProbability"`
 	PrecipType          string  `json:"precipType,omitempty"`
-	PrecipAccumulation  float64 `json:"precipAccumulation,omitempty"`
+	PrecipAccumulation  float64 `json:"precipAccumulation"`
 	Temperature         float64 `json:"temperature,omitempty"`
 	TemperatureMax      float64 `json:"temperatureMax,omitempty"`
 	ApparentTemperature float64 `json:"apparentTemperature,omitempty"`
