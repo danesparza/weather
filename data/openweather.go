@@ -55,11 +55,11 @@ type OpenWeatherResponse struct {
 		Pressure   int     `json:"pressure"`
 		Humidity   int     `json:"humidity"`
 		DewPoint   float64 `json:"dew_point"`
-		Uvi        int     `json:"uvi"`
+		Uvi        float64 `json:"uvi"`
 		Clouds     int     `json:"clouds"`
 		Visibility int     `json:"visibility"`
 		WindSpeed  float64 `json:"wind_speed"`
-		WindDeg    int     `json:"wind_deg"`
+		WindDeg    float64 `json:"wind_deg"`
 		WindGust   float64 `json:"wind_gust"`
 		Weather    []struct {
 			ID          int    `json:"id"`
@@ -203,6 +203,35 @@ func (s OpenWeatherService) GetWeatherReport(ctx context.Context, lat, long stri
 		dailyPoints = append(dailyPoints, dailyPoint)
 	}
 
+	//	Get the hourly points:
+	hourlyPoints := []WeatherDataPoint{}
+
+	//	Set the weather data points:
+	for _, item := range owResponse.Hourly {
+
+		//	Grab the current hourly point
+		hourlyPoint := WeatherDataPoint{
+			ApparentTemperature: item.FeelsLike,
+			CloudCover:          float64(item.Clouds / 100),
+			Humidity:            float64(item.Humidity / 100),
+			Icon:                item.Weather[0].Icon,
+			UVIndex:             item.Uvi,
+			PrecipAccumulation:  item.Rain.OneH,
+			PrecipProbability:   item.Pop,
+			Pressure:            float64(item.Pressure),
+			Summary:             item.Weather[0].Description,
+			Temperature:         item.Temp,
+			TemperatureMax:      item.Temp,
+			Time:                int64(item.Dt),
+			WindBearing:         item.WindDeg,
+			WindGust:            item.WindGust,
+			WindSpeed:           item.WindSpeed,
+		}
+
+		//	Add our daily point:
+		hourlyPoints = append(hourlyPoints, hourlyPoint)
+	}
+
 	//	Get the alerts
 	alerts := []WeatherAlert{}
 	for _, item := range owResponse.Alerts {
@@ -238,6 +267,7 @@ func (s OpenWeatherService) GetWeatherReport(ctx context.Context, lat, long stri
 			WindBearing:         float64(owResponse.Current.WindDeg),
 			WindSpeed:           owResponse.Current.WindSpeed,
 		},
+		Hourly: hourlyPoints,
 		Daily: WeatherDataBlock{
 			Data: dailyPoints,
 		},
