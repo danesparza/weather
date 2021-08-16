@@ -149,7 +149,7 @@ func (s OpenWeatherService) GetWeatherReport(ctx context.Context, lat, long stri
 	q := clientRequest.URL.Query()
 	q.Add("lat", lat)
 	q.Add("lon", long)
-	q.Add("exclude", "minutely,hourly")
+	q.Add("exclude", "minutely")
 	q.Add("units", "imperial")
 	q.Add("appid", apikey)
 	clientRequest.URL.RawQuery = q.Encode()
