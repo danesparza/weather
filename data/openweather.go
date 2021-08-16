@@ -48,6 +48,30 @@ type OpenWeatherResponse struct {
 			Icon        string `json:"icon"`
 		} `json:"weather"`
 	} `json:"current"`
+	Hourly []struct {
+		Dt         int     `json:"dt"`
+		Temp       float64 `json:"temp"`
+		FeelsLike  float64 `json:"feels_like"`
+		Pressure   int     `json:"pressure"`
+		Humidity   int     `json:"humidity"`
+		DewPoint   float64 `json:"dew_point"`
+		Uvi        int     `json:"uvi"`
+		Clouds     int     `json:"clouds"`
+		Visibility int     `json:"visibility"`
+		WindSpeed  float64 `json:"wind_speed"`
+		WindDeg    int     `json:"wind_deg"`
+		WindGust   float64 `json:"wind_gust"`
+		Weather    []struct {
+			ID          int    `json:"id"`
+			Main        string `json:"main"`
+			Description string `json:"description"`
+			Icon        string `json:"icon"`
+		} `json:"weather"`
+		Pop  float64 `json:"pop"`
+		Rain struct {
+			OneH float64 `json:"1h"`
+		} `json:"rain,omitempty"`
+	} `json:"hourly"`
 	Daily []struct {
 		Dt        int     `json:"dt"`
 		Sunrise   int     `json:"sunrise"`
