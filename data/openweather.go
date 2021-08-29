@@ -183,8 +183,8 @@ func (s OpenWeatherService) GetWeatherReport(ctx context.Context, lat, long stri
 		//	Grab the current daily point
 		dailyPoint := WeatherDataPoint{
 			ApparentTemperature: item.FeelsLike.Day,
-			CloudCover:          float64(item.Clouds / 100),
-			Humidity:            float64(item.Humidity / 100),
+			CloudCover:          float64(item.Clouds),
+			Humidity:            float64(item.Humidity),
 			Icon:                item.Weather[0].Icon,
 			UVIndex:             item.Uvi,
 			PrecipAccumulation:  item.Rain,
@@ -212,8 +212,8 @@ func (s OpenWeatherService) GetWeatherReport(ctx context.Context, lat, long stri
 		//	Grab the current hourly point
 		hourlyPoint := WeatherDataPoint{
 			ApparentTemperature: item.FeelsLike,
-			CloudCover:          float64(item.Clouds / 100),
-			Humidity:            float64(item.Humidity / 100),
+			CloudCover:          float64(item.Clouds),
+			Humidity:            float64(item.Humidity),
 			Icon:                item.Weather[0].Icon,
 			UVIndex:             item.Uvi,
 			PrecipAccumulation:  item.Rain.OneH,
@@ -255,8 +255,8 @@ func (s OpenWeatherService) GetWeatherReport(ctx context.Context, lat, long stri
 		Longitude: owResponse.Lon,
 		Currently: WeatherDataPoint{
 			ApparentTemperature: owResponse.Current.FeelsLike,
-			CloudCover:          float64(owResponse.Current.Clouds / 100),
-			Humidity:            float64(owResponse.Current.Humidity / 100),
+			CloudCover:          float64(owResponse.Current.Clouds),
+			Humidity:            float64(owResponse.Current.Humidity),
 			Icon:                owResponse.Current.Weather[0].Icon,
 			UVIndex:             owResponse.Current.Uvi,
 			PrecipAccumulation:  owResponse.Current.Rain.LastHour,
