@@ -8,57 +8,46 @@ import (
 
 // WeatherReport defines a weather report
 type WeatherReport struct {
-	Latitude  float64            `json:"latitude,omitempty"`
-	Longitude float64            `json:"longitude,omitempty"`
-	Currently WeatherDataPoint   `json:"currently,omitempty"`
-	Daily     WeatherDataBlock   `json:"daily,omitempty"`
-	Hourly    []WeatherDataPoint `json:"hourly,omitempty"`
-	Alerts    []WeatherAlert     `json:"alerts,omitempty"`
-	APICalls  int                `json:"apicalls,omitempty"`
-	Code      int                `json:"code,omitempty"`
+	Latitude  float64            `json:"latitude"`
+	Longitude float64            `json:"longitude"`
+	Currently WeatherDataPoint   `json:"currently"`
+	Daily     WeatherDataBlock   `json:"daily"`
+	Hourly    []WeatherDataPoint `json:"hourly"`
+	APICalls  int                `json:"apicalls"`
+	Code      int                `json:"code"`
 	Version   string             `json:"version"`
 }
 
 // WeatherDataBlock defines a group of data points
 type WeatherDataBlock struct {
-	Summary string             `json:"summary,omitempty"`
-	Icon    string             `json:"icon,omitempty"`
-	Data    []WeatherDataPoint `json:"data,omitempty"`
+	Summary string             `json:"summary"`
+	Icon    string             `json:"icon"`
+	Data    []WeatherDataPoint `json:"data"`
 }
 
 // WeatherDataPoint defines a weather data point
 type WeatherDataPoint struct {
-	Time                int64   `json:"time,omitempty"`
-	Summary             string  `json:"summary,omitempty"`
-	Icon                string  `json:"icon,omitempty"`
-	PrecipIntensity     float64 `json:"precipIntensity,omitempty"`
-	PrecipIntensityMax  float64 `json:"precipIntensityMax,omitempty"`
+	Time                int64   `json:"time"`
+	Summary             string  `json:"summary"`
+	Icon                string  `json:"icon"`
+	PrecipIntensity     float64 `json:"precipIntensity"`
+	PrecipIntensityMax  float64 `json:"precipIntensityMax"`
 	PrecipProbability   float64 `json:"precipProbability"`
-	PrecipType          string  `json:"precipType,omitempty"`
+	PrecipType          string  `json:"precipType"`
 	PrecipAccumulation  float64 `json:"precipAccumulation"`
-	Temperature         float64 `json:"temperature,omitempty"`
-	TemperatureMax      float64 `json:"temperatureMax,omitempty"`
-	ApparentTemperature float64 `json:"apparentTemperature,omitempty"`
-	WindSpeed           float64 `json:"windSpeed,omitempty"`
-	WindGust            float64 `json:"windGust,omitempty"`
-	WindBearing         float64 `json:"windBearing,omitempty"`
-	CloudCover          float64 `json:"cloudCover,omitempty"`
-	Humidity            float64 `json:"humidity,omitempty"`
-	Pressure            float64 `json:"pressure,omitempty"`
-	Visibility          float64 `json:"visibility,omitempty"`
-	Ozone               float64 `json:"ozone,omitempty"`
-	UVIndex             float64 `json:"uvindex,omitempty"`
-}
-
-// WeatherAlert defines an alert for a weather event
-type WeatherAlert struct {
-	Title       string   `json:"title,omitempty"`
-	Regions     []string `json:"regions,omitempty"`
-	Severity    string   `json:"severity,omitempty"`
-	Description string   `json:"description,omitempty"`
-	Time        float64  `json:"time,omitempty"`
-	Expires     float64  `json:"expires,omitempty"`
-	URI         string   `json:"uri,omitempty"`
+	Temperature         float64 `json:"temperature"`
+	TemperatureMin      float64 `json:"temperatureMin"`
+	TemperatureMax      float64 `json:"temperatureMax"`
+	ApparentTemperature float64 `json:"apparentTemperature"`
+	WindSpeed           float64 `json:"windSpeed"`
+	WindGust            float64 `json:"windGust"`
+	WindBearing         float64 `json:"windBearing"`
+	CloudCover          float64 `json:"cloudCover"`
+	Humidity            float64 `json:"humidity"`
+	Pressure            float64 `json:"pressure"`
+	Visibility          float64 `json:"visibility"`
+	Ozone               float64 `json:"ozone"`
+	UVIndex             float64 `json:"uvindex"`
 }
 
 // WeatherService is the interface for all services that can fetch weather data

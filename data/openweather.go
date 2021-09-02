@@ -191,7 +191,8 @@ func (s OpenWeatherService) GetWeatherReport(ctx context.Context, lat, long stri
 			PrecipProbability:   item.Pop,
 			Pressure:            float64(item.Pressure),
 			Summary:             item.Weather[0].Description,
-			Temperature:         item.Temp.Min,
+			TemperatureMin:      item.Temp.Min,
+			Temperature:         item.Temp.Day,
 			TemperatureMax:      item.Temp.Max,
 			Time:                int64(item.Dt),
 			WindBearing:         float64(item.WindDeg),
@@ -232,23 +233,6 @@ func (s OpenWeatherService) GetWeatherReport(ctx context.Context, lat, long stri
 		hourlyPoints = append(hourlyPoints, hourlyPoint)
 	}
 
-	//	Get the alerts
-	alerts := []WeatherAlert{}
-	for _, item := range owResponse.Alerts {
-
-		//	Grab the current alert:
-		alert := WeatherAlert{
-			Title:       item.Event,
-			Regions:     []string{item.SenderName},
-			Description: item.Description,
-			Time:        item.Start,
-			Expires:     item.End,
-		}
-
-		//	Add the alert:
-		alerts = append(alerts, alert)
-	}
-
 	//	Format our weather report
 	retval = WeatherReport{
 		Latitude:  owResponse.Lat,
@@ -271,7 +255,6 @@ func (s OpenWeatherService) GetWeatherReport(ctx context.Context, lat, long stri
 		Daily: WeatherDataBlock{
 			Data: dailyPoints,
 		},
-		Alerts: alerts,
 	}
 
 	xray.AddMetadata(ctx, "OpenWeatherResult", retval)
