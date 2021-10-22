@@ -110,6 +110,10 @@ type OpenWeatherResponse struct {
 		Rain   float64 `json:"rain"`
 		Uvi    float64 `json:"uvi"`
 	} `json:"daily"`
+	Minutely []struct {
+		Dt            int     `json:"dt"`
+		Precipitation float64 `json:"precipitation"`
+	} `json:"minutely"`
 	Alerts []struct {
 		SenderName  string   `json:"sender_name"`
 		Event       string   `json:"event"`
@@ -149,7 +153,6 @@ func (s OpenWeatherService) GetWeatherReport(ctx context.Context, lat, long stri
 	q := clientRequest.URL.Query()
 	q.Add("lat", lat)
 	q.Add("lon", long)
-	q.Add("exclude", "minutely")
 	q.Add("units", "imperial")
 	q.Add("appid", apikey)
 	clientRequest.URL.RawQuery = q.Encode()
@@ -229,8 +232,24 @@ func (s OpenWeatherService) GetWeatherReport(ctx context.Context, lat, long stri
 			WindSpeed:           item.WindSpeed,
 		}
 
-		//	Add our daily point:
+		//	Add our point:
 		hourlyPoints = append(hourlyPoints, hourlyPoint)
+	}
+
+	//	Get the minutely points:
+	minutelyPoints := []MinuteDataPoint{}
+
+	//	Set the weather data points:
+	for _, item := range owResponse.Minutely {
+
+		//	Grab the current hourly point
+		minutePoint := MinuteDataPoint{
+			DateTime:      int64(item.Dt),
+			Precipitation: item.Precipitation,
+		}
+
+		//	Add our point:
+		minutelyPoints = append(minutelyPoints, minutePoint)
 	}
 
 	//	Format our weather report
@@ -251,7 +270,8 @@ func (s OpenWeatherService) GetWeatherReport(ctx context.Context, lat, long stri
 			WindBearing:         float64(owResponse.Current.WindDeg),
 			WindSpeed:           owResponse.Current.WindSpeed,
 		},
-		Hourly: hourlyPoints,
+		Hourly:   hourlyPoints,
+		Minutely: minutelyPoints,
 		Daily: WeatherDataBlock{
 			Data: dailyPoints,
 		},

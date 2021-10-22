@@ -13,6 +13,7 @@ type WeatherReport struct {
 	Currently WeatherDataPoint   `json:"currently"`
 	Daily     WeatherDataBlock   `json:"daily"`
 	Hourly    []WeatherDataPoint `json:"hourly"`
+	Minutely  []MinuteDataPoint  `json:"minutely"`
 	APICalls  int                `json:"apicalls"`
 	Code      int                `json:"code"`
 	Version   string             `json:"version"`
@@ -48,6 +49,11 @@ type WeatherDataPoint struct {
 	Visibility          float64 `json:"visibility"`
 	Ozone               float64 `json:"ozone"`
 	UVIndex             float64 `json:"uvindex"`
+}
+
+type MinuteDataPoint struct {
+	DateTime      int64   `json:"dt"`
+	Precipitation float64 `json:"precipitation"`
 }
 
 // WeatherService is the interface for all services that can fetch weather data
